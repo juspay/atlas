@@ -1,0 +1,178 @@
+cradle:
+  stack:
+    stackYaml: "./stack-hie.yaml"
+
+    components:
+    - path: "app/app-backend/src"
+      component: "app-backend:lib"
+
+    - path: "app/app-backend/server/Main.hs"
+      component: "app-backend:exe:app-backend-exe"
+
+    - path: "app/app-backend/server/Paths_app_backend.hs"
+      component: "app-backend:exe:app-backend-exe"
+
+    - path: "app/search-result-aggregator/src"
+      component: "search-result-aggregator:lib"
+
+    - path: "app/search-result-aggregator/server/Main.hs"
+      component: "search-result-aggregator:exe:search-result-aggregator-exe"
+
+    - path: "app/search-result-aggregator/server/Paths_search_result_aggregator.hs"
+      component: "search-result-aggregator:exe:search-result-aggregator-exe"
+
+    - path: "app/public-transport-search-consumer/src"
+      component: "public-transport-search-consumer:lib"
+
+    - path: "app/public-transport-search-consumer/server/Main.hs"
+      component: "public-transport-search-consumer:exe:public-transport-search-consumer-exe"
+
+    - path: "app/public-transport-search-consumer/server/Paths_public_transport_search_consumer.hs"
+      component: "public-transport-search-consumer:exe:public-transport-search-consumer-exe"
+
+    - path: "app/atlas-cli/src"
+      component: "atlas-cli:lib"
+
+    - path: "app/atlas-cli/app/Main.hs"
+      component: "atlas-cli:exe:atlas-cli-exe"
+
+    - path: "app/atlas-cli/app/Paths_atlas_cli.hs"
+      component: "atlas-cli:exe:atlas-cli-exe"
+
+    - path: "app/driver-offer-bpp/src"
+      component: "driver-offer-bpp:lib"
+
+    - path: "app/driver-offer-bpp/server/Main.hs"
+      component: "driver-offer-bpp:exe:driver-offer-bpp-exe"
+
+    - path: "app/atlas-transport/src"
+      component: "atlas-transport:lib"
+
+    - path: "app/atlas-transport/server/BackgroundTaskManagerMain.hs"
+      component: "atlas-transport:exe:atlas-transport-btm-exe"
+
+    - path: "app/atlas-transport/server/Main.hs"
+      component: "atlas-transport:exe:atlas-transport-exe"
+
+    - path: "app/atlas-transport/server/Main.hs"
+      component: "atlas-transport:exe:transporter-scheduler-exe"
+
+    - path: "app/atlas-transport/test/app"
+      component: "atlas-transport:test:atlas-transport-tests"
+
+    - path: "app/atlas-transport/test/src"
+      component: "atlas-transport:test:atlas-transport-tests"
+
+    - path: "app/gateway/src"
+      component: "atlas-gateway:lib"
+
+    - path: "app/gateway/server/Main.hs"
+      component: "atlas-gateway:exe:atlas-gateway-exe"
+
+    - path: "app/gateway/server/Paths_atlas_gateway.hs"
+      component: "atlas-gateway:exe:atlas-gateway-exe"
+
+    - path: "app/example-service/src"
+      component: "example-service:lib"
+
+    - path: "app/example-service/server/Main.hs"
+      component: "example-service:exe:example-service-exe"
+
+    - path: "app/example-service/server/Paths_example_service.hs"
+      component: "example-service:exe:example-service-exe"
+
+    - path: "app/mock-bap/src"
+      component: "mock-bap:lib"
+
+    - path: "app/mock-bap/server/Main.hs"
+      component: "mock-bap:exe:mock-bap-exe"
+
+    - path: "app/mock-bap/server/Paths_mock_bap.hs"
+      component: "mock-bap:exe:mock-bap-exe"
+
+    - path: "app/parking-bap/src"
+      component: "parking-bap:lib"
+
+    - path: "app/parking-bap/server/Main.hs"
+      component: "parking-bap:exe:parking-bap-exe"
+
+    - path: "app/parking-bap/server/Paths_parking_bap.hs"
+      component: "parking-bap:exe:parking-bap-exe"
+
+    - path: "app/mock-parking-bpp/src"
+      component: "mock-parking-bpp:lib"
+
+    - path: "app/mock-parking-bpp/server/Main.hs"
+      component: "mock-parking-bpp:exe:mock-parking-bpp-exe"
+
+    - path: "app/mock-parking-bpp/server/Paths_mock_parking_bpp.hs"
+      component: "mock-parking-bpp:exe:mock-parking-bpp-exe"
+
+    - path: "app/public-transport-bap/src"
+      component: "public-transport-bap:lib"
+
+    - path: "app/public-transport-bap/server/Main.hs"
+      component: "public-transport-bap:exe:public-transport-bap-exe"
+
+    - path: "app/public-transport-bap/server/Paths_public_transport_bap.hs"
+      component: "public-transport-bap:exe:public-transport-bap-exe"
+
+    - path: "app/mock-sms/src"
+      component: "mock-sms:lib"
+
+    - path: "app/mock-sms/server/Main.hs"
+      component: "mock-sms:exe:mock-fcm-exe"
+
+    - path: "app/mock-sms/server/Paths_mock_sms.hs"
+      component: "mock-sms:exe:mock-fcm-exe"
+
+    - path: "app/mock-fcm/src"
+      component: "mock-fcm:lib"
+
+    - path: "app/mock-fcm/server/Main.hs"
+      component: "mock-fcm:exe:mock-fcm-exe"
+
+    - path: "app/mock-fcm/server/Paths_mock_fcm.hs"
+      component: "mock-fcm:exe:mock-fcm-exe"
+
+    - path: "app/mock-registry/src"
+      component: "mock-registry:lib"
+
+    - path: "app/mock-registry/server/Main.hs"
+      component: "mock-registry:exe:mock-registry-exe"
+
+    - path: "app/mock-registry/server/Paths_mock_registry.hs"
+      component: "mock-registry:exe:mock-registry-exe"
+
+    - path: "app/mock-public-transport-bpp/src"
+      component: "mock-public-transport-bpp:lib"
+
+    - path: "app/mock-public-transport-bpp/server/Main.hs"
+      component: "mock-public-transport-bpp:exe:mock-public-transport-bpp-exe"
+
+    - path: "app/mock-public-transport-bpp/server/Paths_mock_public_transport_bpp.hs"
+      component: "mock-public-transport-bpp:exe:mock-public-transport-bpp-exe"
+
+    - path: "lib/atlas-core/src"
+      component: "atlas-core:lib"
+
+    - path: "lib/atlas-core/test/app"
+      component: "atlas-core:test:atlas-core-tests"
+
+    - path: "lib/atlas-core/test/src"
+      component: "atlas-core:test:atlas-core-tests"
+
+    - path: "test/src"
+      component: "atlas-test:lib"
+
+    - path: "test/app"
+      component: "atlas-test:test:atlas-integ-test"
+
+    - path: "app/scheduler-example/src"
+      component: "scheduler-example:lib"
+
+    - path: "app/scheduler-example/server/Main.hs"
+      component: "scheduler-example:exe:scheduler-example-exe"
+
+    - path: "app/scheduler-example/server/Paths_scheduler_example.hs"
+      component: "scheduler-example:exe:scheduler-example-exe"

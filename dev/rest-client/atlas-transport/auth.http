@@ -1,0 +1,26 @@
+# @name login
+POST {{transporter-host}}/auth
+content-type: application/json
+
+{
+  "mobileCountryCode": "+91",
+  "mobileNumber": "5555555555"
+}
+
+###
+
+@authToken = {{login.response.body.authId}}
+
+# @name verify
+
+POST {{transporter-host}}/auth/{{authToken}}/verify
+content-type: application/json
+
+{
+  "otp": "7891",
+  "deviceToken": ""
+}
+
+###
+
+@token = {{verify.response.body.token}}

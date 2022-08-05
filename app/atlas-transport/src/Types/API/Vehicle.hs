@@ -1,0 +1,129 @@
+{- |
+Copyright 2022 Juspay Technologies Pvt Ltd
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Module      :  Types.API.Vehicle
+Copyright   :  (C) Juspay Technologies Pvt Ltd 2019-2022
+License     :  Apache 2.0 (see the file LICENSE)
+Maintainer  :  opensource@juspay.in
+Stability   :  experimental
+Portability :  non-portable
+-}
+
+module Types.API.Vehicle where
+
+import Beckn.Types.APISuccess
+import Beckn.Types.Common as BC
+import Beckn.Types.Id
+import Beckn.Types.Predicate
+import qualified Beckn.Utils.Predicates as P
+import Beckn.Utils.Validation
+import Data.OpenApi (ToSchema)
+import qualified Domain.Types.Organization as Org
+import Domain.Types.Vehicle as SV
+import EulerHS.Prelude hiding (id)
+
+-- Create Person request and response
+data CreateVehicleReq = CreateVehicleReq
+  { variant :: Variant,
+    model :: Text,
+    color :: Text,
+    capacity :: Maybe Int,
+    category :: Maybe Category,
+    make :: Maybe Text,
+    size :: Maybe Text,
+    energyType :: Maybe EnergyType,
+    registrationNo :: Text,
+    registrationCategory :: Maybe RegistrationCategory
+  }
+  deriving (Generic, FromJSON, ToJSON, ToSchema)
+
+-- why model can't contain digits?
+validateCreateVehicleReq :: Validate CreateVehicleReq
+validateCreateVehicleReq CreateVehicleReq {..} =
+  sequenceA_
+    [ validateField "model" model $
+        NotEmpty `And` star P.latinOrSpace,
+      validateField "color" color $ NotEmpty `And` P.name,
+      validateField "registrationNo" registrationNo $
+        LengthInRange 1 11 `And` star (P.latinUC \/ P.digit),
+      validateField "make" make . InMaybe $ NotEmpty `And` P.name
+    ]
+
+createVehicle :: MonadFlow m => CreateVehicleReq -> Id Org.Organization -> m SV.Vehicle
+createVehicle req orgId = do
+  vid <- BC.generateGUID
+  now <- getCurrentTime
+  return $
+    SV.Vehicle
+      { -- only these below will be updated in the vehicle table. if you want to add something extra please add in queries also
+        SV.id = vid,
+        SV.capacity = req.capacity,
+        SV.category = req.category,
+        SV.make = req.make,
+        SV.model = req.model,
+        SV.size = req.size,
+        SV.organizationId = orgId,
+        SV.variant = req.variant,
+        SV.color = req.color,
+        SV.energyType = req.energyType,
+        SV.registrationNo = req.registrationNo,
+        SV.registrationCategory = req.registrationCategory,
+        SV.createdAt = now,
+        SV.updatedAt = now
+      }
+
+newtype CreateVehicleRes = CreateVehicleRes
+  {vehicle :: SV.VehicleAPIEntity}
+  deriving (Generic, ToJSON, ToSchema)
+
+newtype ListVehicleRes = ListVehicleRes
+  {vehicles :: [VehicleRes]}
+  deriving (Generic, ToJSON, ToSchema)
+
+data UpdateVehicleReq = UpdateVehicleReq
+  { variant :: Maybe Variant,
+    model :: Maybe Text,
+    color :: Maybe Text,
+    category :: Maybe Category
+  }
+  deriving (Generic, FromJSON, ToSchema)
+
+validateUpdateVehicleReq :: Validate UpdateVehicleReq
+validateUpdateVehicleReq UpdateVehicleReq {..} =
+  sequenceA_
+    [ validateField "model" model . InMaybe $
+        NotEmpty `And` star P.latinOrSpace,
+      validateField "color" color . InMaybe $ NotEmpty `And` P.name
+    ]
+
+type UpdateVehicleRes = VehicleAPIEntity
+
+type DeleteVehicleRes = APISuccess
+
+data VehicleRes = VehicleRes
+  { vehicle :: SV.VehicleAPIEntity,
+    driver :: Maybe Driver
+  }
+  deriving (Generic, FromJSON, ToJSON, ToSchema)
+
+data Driver = Driver
+  { id :: Text,
+    firstName :: Text,
+    middleName :: Maybe Text,
+    lastName :: Maybe Text,
+    rating :: Maybe Int,
+    organizationId :: Maybe (Id Org.Organization)
+  }
+  deriving (Generic, FromJSON, ToJSON, ToSchema)
